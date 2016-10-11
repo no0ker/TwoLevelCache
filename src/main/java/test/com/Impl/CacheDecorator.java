@@ -4,6 +4,7 @@ import test.com.Api.Cache;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CacheDecorator<K, V extends Serializable> implements Cache<K, V> {
 
@@ -12,7 +13,7 @@ public class CacheDecorator<K, V extends Serializable> implements Cache<K, V> {
 
     private Strategy currentCtrategy;
     private int maxSize;
-    private int currentSize = 0;
+    private AtomicInteger currentSize = new AtomicInteger(0);
     private String path;
     private Cache<K, V> innerCache;
 
@@ -45,11 +46,11 @@ public class CacheDecorator<K, V extends Serializable> implements Cache<K, V> {
     }
 
     public void put(K key, V value) throws IOException {
-        if((currentSize + 1) > maxSize){
+        if((currentSize.get() + 1) > maxSize){
             throw new IllegalArgumentException("current size is too large");
         }
         innerCache.put(key, value);
-        ++currentSize;
+        currentSize.addAndGet(1);
     }
 
     public V get(K key) throws IOException, ClassNotFoundException {
@@ -62,11 +63,11 @@ public class CacheDecorator<K, V extends Serializable> implements Cache<K, V> {
 
     public void remove(K key) {
         innerCache.remove(key);
-        --currentSize;
+        currentSize.addAndGet(-1);
     }
 
     public void clear() {
         innerCache.clear();
-        currentSize = 0;
+        currentSize.set(0);
     }
 }
