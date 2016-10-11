@@ -7,11 +7,9 @@ import java.io.Serializable;
 
 public class CacheDecorator<K, V extends Serializable> implements Cache<K, V> {
 
-    public static enum Strategy {MEMORY, HDD}
-
-    ;
     public static final int DEFAULT_SIZE = 10;
-
+    public static enum Strategy {MEMORY, HDD};
+    
     private Strategy currentCtrategy;
     private int maxSize;
     private int currentSize = 0;
