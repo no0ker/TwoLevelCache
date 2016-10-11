@@ -3,15 +3,15 @@ package test.com.Impl;
 import test.com.Api.Cache;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MemCache<K, V extends Serializable> implements Cache<K, V> {
 
     private final Map<K, V> innerMap;
 
     public MemCache() {
-        innerMap = new HashMap<K, V>();
+        innerMap = new ConcurrentHashMap<K, V>();
     }
 
     public void put(K key, V value) {
