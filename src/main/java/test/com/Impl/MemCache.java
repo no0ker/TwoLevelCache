@@ -2,10 +2,11 @@ package test.com.Impl;
 
 import test.com.Api.Cache;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MemCache<K, V> implements Cache<K, V> {
+public class MemCache<K, V extends Serializable> implements Cache<K, V> {
 
     private final Map<K, V> innerMap;
 
@@ -27,5 +28,9 @@ public class MemCache<K, V> implements Cache<K, V> {
 
     public void remove(K key) {
         innerMap.remove(key);
+    }
+
+    public void clear() {
+        innerMap.clear();
     }
 }

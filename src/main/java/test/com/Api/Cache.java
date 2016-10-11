@@ -8,4 +8,5 @@ public interface Cache<K, V extends Serializable> {
     V get(K key) throws IOException, ClassNotFoundException;
     boolean contains(K key);
     void remove(K key);
+    void clear();
 }

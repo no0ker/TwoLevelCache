@@ -10,10 +10,11 @@ import java.io.IOException;
 
 public class MemCacheTest extends TestCase {
 
-    protected Cache<String, String> cache;
-    protected String key = "Key";
-    protected String key2 = "Key2";
-    protected String value = "Value";
+    protected  Cache<String, String> cache;
+
+    private String key = "Key";
+    private String key2 = "Key2";
+    private String value = "Value";
 
     public MemCacheTest(String testName) {
         super(testName);
@@ -30,6 +31,7 @@ public class MemCacheTest extends TestCase {
     }
 
     public void testContains() throws IOException {
+        cache.clear();
         cache.put(key, value);
         assertTrue(cache.contains(key));
         assertFalse(cache.contains(key2));
@@ -39,5 +41,13 @@ public class MemCacheTest extends TestCase {
         cache.put(key, value);
         cache.remove(key);
         assertFalse(cache.contains(key));
+    }
+
+    public void testClear() throws IOException, ClassNotFoundException {
+        cache.clear();
+        cache.put(key, value);
+        cache.clear();
+        assertFalse(cache.contains(key));
+        assertEquals(null, cache.get(key));
     }
 }
